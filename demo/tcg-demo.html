@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cruise Globe SDK Demo</title>
+    
+    <!-- Load Mapbox GL JS first -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet" />
+
+    <!-- Demo styles -->
+    <link href="./demo-styles.css" rel="stylesheet" />
+
+    <!-- Load TCG SDK (Production build) with configuration via data attributes -->
+    <script
+        src="../dist/index.umd.js"
+        data-mapbox-key="REPLACE_WITH_YOUR_MAPBOX_KEY"
+        data-cruisemaps-key="REPLACE_WITH_YOUR_CRUISEMAPS_KEY">
+    </script>
+
+    <!-- Demo application logic -->
+    <script src="./demo-script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>SDK Demo</h1>
+                <p>Interactive Maps SDK for Cruise Maps demonstration</p>
+            </div>
+            <img src="./TCG_WM1_White-cropped2.svg" alt="TCG Logo" class="header-logo">
+        </header>
+
+        <main class="main">
+            <!-- Loading Section -->
+            <section id="loading-section" class="loading-section">
+                <h2>Loading SDK...</h2>
+                <p>Loading TCG SDK from script tag...</p>
+            </section>
+
+            <!-- Ships Section -->
+            <section id="ships-section" class="hidden">
+                <h2>1. Fetch Ships (returns mock data)</h2>
+                
+                <!-- Ships Pagination Controls -->
+                <div class="form-group">
+                    <div class="map-size-controls">
+                        <label>
+                            Offset:
+                            <input 
+                                type="number" 
+                                id="ships-offset" 
+                                min="0" 
+                                value="0"
+                                placeholder="Starting index"
+                            />
+                        </label>
+                        <label>
+                            Limit:
+                            <input 
+                                type="number" 
+                                id="ships-limit" 
+                                min="1" 
+                                max="250" 
+                                value="10"
+                                placeholder="Number of ships"
+                            />
+                        </label>
+                    </div>
+                </div>
+                
+                <button onclick="fetchShips()" id="fetch-ships-btn" disabled>Fetch Ships</button>
+
+                <div id="ships-list" class="ships-list hidden">
+                    <h3>Ships (<span id="ships-count">0</span> of <span id="total-ships-count">0</span> total)</h3>
+                    <ul id="ships-ul"></ul>
+                </div>
+            </section>
+
+            <!-- Map Section -->
+            <section id="map-section" class="hidden">
+                <h2>2. Load Map (loads an example geojson file)</h2>
+
+                <!-- Itinerary Input -->
+                <div class="form-group">
+                    <h4>Itinerary Input (this section is not used as the SDK currently returns a mock)</h4>
+                    <div class="map-size-controls">
+                        <label>
+                            Ship ID:
+                            <input
+                                type="number"
+                                id="ship-id"
+                                placeholder="Enter ship ID (e.g., 123)"
+                                value="350"
+                            />
+                        </label>
+                        <label>
+                            Start Date:
+                            <input 
+                                type="date" 
+                                id="start-date"
+                            />
+                        </label>
+                        <label>
+                            Duration (days):
+                            <input 
+                                type="number" 
+                                id="duration" 
+                                placeholder="Number of days"
+                                min="1" 
+                                max="365"
+                                value="7"
+                            />
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Map Configuration -->
+                <div class="form-group">
+                    <h4>Map Configuration</h4>
+
+                    <!-- Map Size & Style and Custom Style Row -->
+                    <div class="compact-subsections-row">
+                        <!-- Map Size & Zoom Subsection -->
+                        <div class="config-subsection">
+                            <h5>Map Size & Zoom</h5>
+                            <div class="map-config-controls">
+                                <label>
+                                    Width (px):
+                                    <input
+                                        type="number"
+                                        id="map-width"
+                                        min="200"
+                                        max="2000"
+                                        value="800"
+                                    />
+                                </label>
+                                <label>
+                                    Height (px):
+                                    <input
+                                        type="number"
+                                        id="map-height"
+                                        min="200"
+                                        max="2000"
+                                        value="400"
+                                    />
+                                </label>
+                                <label>
+                                    Zoom Level:
+                                    <input
+                                        type="number"
+                                        id="zoom-level"
+                                        min="0"
+                                        max="22"
+                                        step="0.1"
+                                        value="10"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Map Style Selection Subsection -->
+                        <div class="config-subsection">
+                            <h5>Map Style Selection</h5>
+                            <div class="map-config-controls">
+                                <label>
+                                    Map Style:
+                                    <select id="map-style">
+                                        <!-- Options will be populated dynamically from SDK config -->
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="custom-style-container">
+                                <label>
+                                    Add Custom Map Style:
+                                    <div class="custom-style-input-group">
+                                        <input
+                                            type="text"
+                                            id="custom-style-input"
+                                            placeholder="mapbox://styles/username/style-id"
+                                        />
+                                        <button type="button" onclick="addCustomMapStyle()">
+                                            Add Style
+                                        </button>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Features and Route Styling Row -->
+                    <div class="compact-subsections-row">
+                        <!-- Map Features Subsection -->
+                        <div class="config-subsection">
+                            <h5>Map Features</h5>
+                            <div class="map-config-controls">
+                                <label>
+                                    <input type="checkbox" id="static-map" />
+                                    Static Map
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="3d-map" />
+                                    3D Mode
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="has-arrows" checked />
+                                    Show route arrows
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Route Styling Subsection -->
+                        <div class="config-subsection">
+                            <h5>Route Track Styling</h5>
+                            <div class="map-config-controls">
+                                <label>
+                                    Track Color:
+                                    <input
+                                        type="color"
+                                        id="track-color"
+                                        value="#0066cc"
+                                    />
+                                </label>
+                                <label>
+                                    Track Width:
+                                    <input
+                                        type="number"
+                                        id="track-width"
+                                        min="0.5"
+                                        max="10"
+                                        step="0.5"
+                                        value="2.5"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Port Styling Subsection -->
+                    <div class="config-subsection">
+                        <h5>Port Styling</h5>
+                        <div class="map-config-controls">
+                            <div class="port-style-group">
+                                <h6>Start Port</h6>
+                                <label>
+                                    Color:
+                                    <input
+                                        type="color"
+                                        id="start-port-color"
+                                        value="#00ff00"
+                                    />
+                                </label>
+                                <label>
+                                    Radius:
+                                    <input
+                                        type="number"
+                                        id="start-port-radius"
+                                        min="2"
+                                        max="20"
+                                        value="12"
+                                    />
+                                </label>
+                            </div>
+                            <div class="port-style-group">
+                                <h6>End Port</h6>
+                                <label>
+                                    Color:
+                                    <input
+                                        type="color"
+                                        id="end-port-color"
+                                        value="#ff0000"
+                                    />
+                                </label>
+                                <label>
+                                    Radius:
+                                    <input
+                                        type="number"
+                                        id="end-port-radius"
+                                        min="2"
+                                        max="20"
+                                        value="12"
+                                    />
+                                </label>
+                            </div>
+                            <div class="port-style-group">
+                                <h6>Intermediate Ports</h6>
+                                <label>
+                                    Color:
+                                    <input
+                                        type="color"
+                                        id="intermediate-port-color"
+                                        value="#ffaa00"
+                                    />
+                                </label>
+                                <label>
+                                    Radius:
+                                    <input
+                                        type="number"
+                                        id="intermediate-port-radius"
+                                        min="2"
+                                        max="20"
+                                        value="8"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-controls">
+                    <button onclick="loadMap()" id="load-map-btn" disabled>
+                        Load Map
+                    </button>
+                    <button onclick="destroyMap()" id="destroy-map-btn" disabled>
+                        Destroy Map
+                    </button>
+                </div>
+
+                <!-- Map Container -->
+                <div class="map-container">
+                    <div id="cruise-map" class="map-placeholder">
+                        Map will appear here once loaded.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Display -->
+            <section id="error-section" class="error-section hidden">
+                <div class="error-message">
+                    <strong>Error:</strong> <span id="error-message"></span>
+                </div>
+            </section>
+
+            <!-- SDK Info -->
+            <section id="info-section" class="hidden">
+                <h2>SDK Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>SDK Configured:</strong> <span id="sdk-configured">No</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Ships Loaded:</strong> <span id="ships-loaded">0</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Map Loaded:</strong> <span id="map-loaded">No</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

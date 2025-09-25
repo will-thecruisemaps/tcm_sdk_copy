@@ -1,0 +1,460 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.header-logo {
+    max-height: 24px;
+    width: auto;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.loading-section {
+    text-align: center;
+    padding: 40px;
+    border: 2px dashed #3498db;
+    border-radius: 12px;
+    background: #f0f8ff;
+    color: #3498db;
+}
+
+.loading-section h2 {
+    border-bottom: none;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+section {
+    padding: 25px;
+    border: 1px solid #e1e5e9;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #34495e;
+}
+
+.form-group input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+button {
+    padding: 12px 24px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.success {
+    color: #27ae60;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.ships-list {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fc;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.ships-list h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.ships-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ships-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 14px;
+}
+
+.ships-list li:last-child {
+    border-bottom: none;
+}
+
+.map-controls {
+    margin-bottom: 20px;
+}
+
+.map-container {
+    margin-top: 20px;
+}
+
+#cruise-map {
+    width: 800px;
+    height: 400px;
+    border: 1px solid #ccc;
+}
+
+.error-section {
+    border-color: #e74c3c;
+    background: #fdf2f2;
+}
+
+.error-message {
+    color: #c0392b;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border-left: 4px solid #e74c3c;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.info-item {
+    padding: 15px;
+    background: #f8f9fc;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.info-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+.ship-buttons {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.ship-buttons button {
+    margin-right: 8px;
+    padding: 2px 6px;
+    font-size: 12px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+}
+
+.ship-buttons button:hover {
+    background: #e0e0e0;
+    transform: none;
+    box-shadow: none;
+}
+
+.map-size-controls {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.map-size-controls label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #34495e;
+    margin-bottom: 0;
+}
+
+.map-size-controls input {
+    width: 150px;
+    max-width: 150px;
+    margin-top: 8px;
+}
+
+.map-config-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.map-config-controls label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #34495e;
+    gap: 8px;
+}
+
+.map-config-controls input[type="number"],
+.map-config-controls select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
+    width: 200px;
+}
+
+.map-config-controls input[type="color"] {
+    width: 120px;
+    height: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+}
+
+.map-config-controls label:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.map-config-controls input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Configuration Subsections */
+.config-subsection {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fc;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* Horizontal layout for compact subsections */
+.compact-subsections-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.compact-subsections-row .config-subsection {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.config-subsection h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+}
+
+/* Custom Style Container */
+.custom-style-container {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.custom-style-container label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #34495e;
+    gap: 8px;
+    margin-bottom: 0;
+}
+
+.custom-style-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.custom-style-input-group input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
+}
+
+.custom-style-input-group button {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    margin: 0;
+}
+
+/* Port Style Groups */
+.map-config-controls .port-style-group {
+    margin-bottom: 0;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    flex: 1;
+    min-width: 0;
+}
+
+.config-subsection:has(.port-style-group) .map-config-controls {
+    display: flex;
+    gap: 15px;
+    align-items: stretch;
+}
+
+.port-style-group h6 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #495057;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .form-group input {
+        max-width: 100%;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .map-size-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .config-subsection {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .config-subsection:has(.port-style-group) .map-config-controls {
+        flex-direction: column;
+    }
+
+    .compact-subsections-row {
+        flex-direction: column;
+    }
+
+    .compact-subsections-row .config-subsection {
+        margin-bottom: 20px;
+    }
+
+    .map-config-controls .port-style-group {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+}
+
+.hidden {
+    display: none;
+}
